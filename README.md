@@ -6,7 +6,7 @@
 
 ## Установка
 
-1. Скачай релизный архив `lbz-new-horizons-reset-1.43.zip`.
+1. Скачай релизный архив `lbz-new-horizons-reset.zip`.
 2. Распакуй его в корень игры, например:
 
 ```text
@@ -16,7 +16,7 @@ C:\Games\Tanki\
 После распаковки файл должен лежать так:
 
 ```text
-C:\Games\Tanki\mods\1.43.0.0\lbz_new_horizons_reset_1.43.mtmod
+C:\Games\Tanki\mods\1.43.0.0\lbz_new_horizons_reset.mtmod
 ```
 
 Если в этой папке есть старые версии этого мода, удали их.
@@ -47,14 +47,14 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_release.ps1
 Результаты:
 
 ```text
-_build\release_1.43\lbz_new_horizons_reset_1.43.mtmod
-release\1,43\lbz-new-horizons-reset-1.43.zip
+_build\release_1.43\lbz_new_horizons_reset.mtmod
+release\1,43\lbz-new-horizons-reset.zip
 ```
 
 Архив уже содержит нужную структуру:
 
 ```text
-mods\1.43.0.0\lbz_new_horizons_reset_1.43.mtmod
+mods\1.43.0.0\lbz_new_horizons_reset.mtmod
 ```
 
 ## Логи для разработчиков
