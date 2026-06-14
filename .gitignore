@@ -1,0 +1,19 @@
+*.pyc
+__pycache__/
+
+# Local client extracts and probes
+$extract/
+_extract/
+_inspect*/
+dis_pm.py
+dis_pm_more.py
+inspect_pyc.py
+mod_lbz_reset_hotkey.py
+mod_lbz_reset_probe.py
+
+# Generated builds
+_build/
+*.mtmod
+
+# Keep release zips outside normal source changes unless added explicitly
+release/
