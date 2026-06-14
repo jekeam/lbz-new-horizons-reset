@@ -48,7 +48,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build_release.ps1
 
 ```text
 _build\release_1.43\lbz_new_horizons_reset_1.43.mtmod
-release\1,43\lbz-new-horizons-reset.zip
+release\1.43\lbz-new-horizons-reset.zip
 ```
 
 Архив уже содержит нужную структуру:
