@@ -11,7 +11,7 @@ $Pyc = Join-Path $RepoRoot "mod_lbz_dynamic_reset.pyc"
 $GameVersion = "1.43.0.0"
 $ReleaseName = "1.43"
 $PackageName = "lbz_new_horizons_reset_1.43.mtmod"
-$ModuleName = "mod_lbz_dynamic_reset_v038.pyc"
+$ModuleName = "mod_lbz_dynamic_reset_v037.pyc"
 $ZipName = "lbz-new-horizons-reset.zip"
 
 $BuildRoot = Join-Path $RepoRoot "_build\release_1.43"

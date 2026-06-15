@@ -6,7 +6,7 @@ import time
 import traceback
 
 MOD_NAME = "LBZ_DYNAMIC_RESET"
-MOD_VERSION = "0.1.38"
+MOD_VERSION = "0.1.37"
 DEBUG_LOG = False
 HOTKEY_COOLDOWN = 0.8
 SETTINGS_LINKAGE = "lbz_dynamic_reset"
@@ -1913,8 +1913,7 @@ def disable_older_modules():
             "mod_lbz_dynamic_reset_v033",
             "mod_lbz_dynamic_reset_v034",
             "mod_lbz_dynamic_reset_v035",
-            "mod_lbz_dynamic_reset_v036",
-            "mod_lbz_dynamic_reset_v037"
+            "mod_lbz_dynamic_reset_v036"
         ]:
             module = sys.modules.get(module_name)
             if module is None or module is current_module:
