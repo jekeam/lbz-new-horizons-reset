@@ -6,7 +6,7 @@ import time
 import traceback
 
 MOD_NAME = "LBZ_DYNAMIC_RESET"
-MOD_VERSION = "0.1.37"
+MOD_VERSION = "0.1.38"
 DEBUG_LOG = False
 HOTKEY_COOLDOWN = 0.8
 SETTINGS_LINKAGE = "lbz_dynamic_reset"
@@ -60,6 +60,19 @@ OVERLAY_HOVER_START_TIME = 0.0
 OVERLAY_HELP_SHOWN = False
 OVERLAY_TITLE = u"\u0421\u0431\u0440\u043e\u0441 \u041b\u0411\u0417"
 OVERLAY_HELP_TEXT = u"\u041a\u043b\u0438\u043a: \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0430\u0440\u0442\u043e\u0447\u043a\u0443. Alt+\u043a\u043b\u0438\u043a: \u0441\u0440\u0430\u0437\u0443 \u0441\u0431\u0440\u043e\u0441. Ctrl+\u041b\u041a\u041c: \u043f\u0435\u0440\u0435\u043c\u0435\u0441\u0442\u0438\u0442\u044c. F9: \u0441\u043a\u0440\u044b\u0442\u044c/\u043f\u043e\u043a\u0430\u0437\u0430\u0442\u044c."
+ROMAN_LEVELS = {
+    1: u"I",
+    2: u"II",
+    3: u"III",
+    4: u"IV",
+    5: u"V",
+    6: u"VI",
+    7: u"VII",
+    8: u"VIII",
+    9: u"IX",
+    10: u"X",
+    11: u"XI"
+}
 
 
 def ensure_config_dir():
@@ -153,6 +166,46 @@ def trim_text(value, limit):
         return value[:limit - 3] + u"..."
     except Exception:
         return value
+
+
+def roman_level(level):
+    try:
+        return ROMAN_LEVELS.get(int(level), to_unicode_text(level))
+    except Exception:
+        return u""
+
+
+def format_vehicle_levels(min_level, max_level):
+    try:
+        if min_level is None or max_level is None:
+            return u""
+        min_text = roman_level(min_level)
+        max_text = roman_level(max_level)
+        if not min_text or not max_text:
+            return u""
+        if int(min_level) == int(max_level):
+            return min_text
+        return u"{}-{}".format(min_text, max_text)
+    except Exception:
+        log_exception("format_vehicle_levels")
+        return u""
+
+
+def get_quest_vehicle_levels(quest):
+    min_level = None
+    max_level = None
+
+    for method_name in ["getVehMinLevel", "getVehicleMinLevel", "getMinVehicleLevel"]:
+        min_level = call(quest, method_name, None)
+        if min_level is not None:
+            break
+
+    for method_name in ["getVehMaxLevel", "getVehicleMaxLevel", "getMaxVehicleLevel"]:
+        max_level = call(quest, method_name, None)
+        if max_level is not None:
+            break
+
+    return format_vehicle_levels(min_level, max_level)
 
 
 def get_controller():
@@ -555,6 +608,7 @@ def get_active_quests():
                 "id": quest_id,
                 "key": key,
                 "name": get_quest_name(quest),
+                "levels": get_quest_vehicle_levels(quest),
                 "operation": call(quest, "getOperationID", None),
                 "chain": call(quest, "getChainID", None),
                 "branch": call(quest, "getQuestBranch", None),
@@ -596,6 +650,9 @@ def make_overlay_task_label(index, quest):
     try:
         status = u"[X]" if quest.get("locked") else u"[>]"
         name = trim_text(quest.get("name") or u"", 72)
+        levels = trim_text(quest.get("levels") or u"", 20)
+        if levels:
+            return u"{}  {} {}".format(status, name, levels)
         return u"{}  {}".format(status, name)
     except Exception:
         return safe_repr(quest, 120)
@@ -1245,6 +1302,7 @@ def get_selector_quests():
                 "id": quest_id,
                 "key": key,
                 "name": get_quest_name(quest),
+                "levels": get_quest_vehicle_levels(quest),
                 "operation": call(quest, "getOperationID", None),
                 "chain": call(quest, "getChainID", None),
                 "branch": call(quest, "getQuestBranch", None),
@@ -1855,7 +1913,8 @@ def disable_older_modules():
             "mod_lbz_dynamic_reset_v033",
             "mod_lbz_dynamic_reset_v034",
             "mod_lbz_dynamic_reset_v035",
-            "mod_lbz_dynamic_reset_v036"
+            "mod_lbz_dynamic_reset_v036",
+            "mod_lbz_dynamic_reset_v037"
         ]:
             module = sys.modules.get(module_name)
             if module is None or module is current_module:
